@@ -1,4 +1,7 @@
 package com.shopping.shopping.repository;
 
-public interface OrderRepository {
+import com.shopping.shopping.model.OrderT;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface OrderRepository extends JpaRepository<OrderT, Long> {
 }
