@@ -5,12 +5,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.util.ArrayList;
+
 @Entity
 public class UserT {
     private @Id @GeneratedValue(strategy = GenerationType.AUTO) long id;
     private String username;
     private String password;
     private String token;
+    @ElementCollection
+    private ArrayList<Integer> ordersId;
 
     public UserT(String username, String password, String token) {
         this.username = username;

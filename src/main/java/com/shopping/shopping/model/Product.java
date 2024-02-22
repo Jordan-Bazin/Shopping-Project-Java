@@ -1,11 +1,11 @@
 package com.shopping.shopping.model;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
+import java.util.ArrayList;
 
 @Entity
 public class Product {
@@ -18,6 +18,7 @@ public class Product {
     private String brand;
     private String category;
     private String thumbnail;
+    private String[] images;
 
     public Product(String title, String description, float price, float rating, int stock, String brand, String category, String thumbnail) {
         this.title = title;

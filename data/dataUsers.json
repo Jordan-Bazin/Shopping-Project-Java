@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "name": "John Doe",
+        "password": "azerty",
+        "token" : "azerty123"
+    },
+    {
+        "id": 2,
+        "name": "Jane Doe",
+        "password" : "qwerty",
+        "token" : "hgbjknl"
+    },
+    {
+        "id": 3,
+        "name": "John Smith",
+        "password" : "azerty0",
+        "token" : "azerty1234"
+    }
+]
