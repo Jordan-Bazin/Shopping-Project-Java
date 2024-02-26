@@ -1,18 +1,18 @@
 package com.shopping.shopping.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
 
 @Entity
 public class OrderT {
     private @Id @GeneratedValue(strategy = GenerationType.AUTO) long id;
-    private long productId;
-    private long userId;
+    @ElementCollection
+    private ArrayList<Integer> productId;
+    private int userId;
     private String status;
 
-    public OrderT(long productId, long userId, String status) {
+    public OrderT(ArrayList<Integer> productId, int userId, String status) {
         this.productId = productId;
         this.userId = userId;
         this.status = status;
@@ -20,11 +20,11 @@ public class OrderT {
 
     public OrderT() {}
 
-    public long getProductId() {
+    public ArrayList<Integer> getProductId() {
         return productId;
     }
 
-    public void setProductId(long productId) {
+    public void setProductId(ArrayList<Integer> productId) {
         this.productId = productId;
     }
 
@@ -32,7 +32,7 @@ public class OrderT {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 

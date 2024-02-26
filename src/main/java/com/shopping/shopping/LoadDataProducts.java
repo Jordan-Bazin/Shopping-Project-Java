@@ -1,5 +1,6 @@
 package com.shopping.shopping;
 
+import com.shopping.shopping.model.OrderT;
 import com.shopping.shopping.model.Product;
 import com.shopping.shopping.model.UserT;
 import com.shopping.shopping.repository.OrderRepository;
@@ -17,22 +18,31 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Configuration
 public class LoadDataProducts {
     private static final Logger log = LoggerFactory.getLogger(LoadDataProducts.class);
     String products;
     String users;
+    String orders;
+    String productOrders;
     @Bean
     CommandLineRunner initDatabase(UserRepository userRepository, OrderRepository orderRepository, ProductRepository productRepository, ProductOrderRepository productOrderRepository) {
         return args-> {
             try{
                 products = new String(Files.readAllBytes(Paths.get("C:/dev/java/projet/Shopping-Project-Java/data/dataProducts.json")));
                 users = new String(Files.readAllBytes(Paths.get("C:/dev/java/projet/Shopping-Project-Java/data/dataUsers.json")));
-                //System.out.println(content);
+                orders = new String(Files.readAllBytes(Paths.get("C:/dev/java/projet/Shopping-Project-Java/data/dataOrders.json")));
+                productOrders = new String(Files.readAllBytes(Paths.get("C:/dev/java/projet/Shopping-Project-Java/data/dataProductOrders.json")));
+
                 JSONArray jsonProducts = new JSONArray(products);
                 JSONArray jsonUsers = new JSONArray(users);
+                JSONArray jsonOrders  = new JSONArray(orders);
+                JSONArray jsonProductOrders = new JSONArray(productOrders);
 
+                // Load products
                 for (int i = 0; i < jsonProducts.length(); i++) {
                     JSONObject jsonObject = jsonProducts.getJSONObject(i);
                     //System.out.println(jsonObject);
@@ -56,6 +66,7 @@ public class LoadDataProducts {
                     productRepository.save(product);
                 }
 
+                // Load users
                 for (int i = 0; i < jsonUsers.length(); i++) {
                     JSONObject jsonObject = jsonUsers.getJSONObject(i);
                     int id = jsonObject.getInt("id");
@@ -66,6 +77,23 @@ public class LoadDataProducts {
                     UserT user = new UserT(name, password, token);
                     userRepository.save(user);
                 }
+
+                // Load orders
+                for (int i = 0; i < jsonOrders.length(); i++) {
+                    JSONObject jsonObject = jsonOrders.getJSONObject(i);
+                    int id = jsonObject.getInt("id");
+                    int userId = jsonObject.getInt("userId");
+                    String status = jsonObject.getString("status");
+                    JSONArray productIdArray = jsonObject.getJSONArray("productId");
+                    ArrayList<Integer> productId = new ArrayList<>(50);
+                    for (int j = 0; j < productIdArray.length(); j++) {
+                        productId.add(productIdArray.getInt(j));
+                    }
+
+                    OrderT order = new OrderT(productId, userId, status);
+                    orderRepository.save(order);
+                }
+
             }
             catch (IOException e) {
                 throw new RuntimeException(e);
